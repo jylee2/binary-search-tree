@@ -20,6 +20,7 @@ const validateData = (dataArray, primaryKey) => {
 
 const groupByPrimaryKey = (dataArray, primaryKey) => {
   if (!dataArray?.length) return;
+  validateData(dataArray, primaryKey);
 
   const uniqData = uniqBy(dataArray.filter(Boolean), primaryKey);
 
@@ -42,8 +43,6 @@ const groupByPrimaryKey = (dataArray, primaryKey) => {
 
 class BinarySearchTree {
   constructor(dataArray, primaryKey) {
-    validateData(dataArray, primaryKey);
-
     this.root = null;
     this.indexedData = groupByPrimaryKey(dataArray, primaryKey) || {};
     this.primaryKey = primaryKey;
@@ -117,18 +116,4 @@ class BinarySearchTree {
   }
 }
 
-module.exports = { BinarySearchTree };
-
-// const { BinarySearchTree } = require("./BinarySearchTree");
-
-// const data = [
-//   { name: "batman", powers: ["rich"] },
-//   { name: "aquaman", powers: ["swimming"] },
-// ];
-
-// const BST = new BinarySearchTree(data, "name");
-
-// BST.insert({ name: "catwoman", powers: ["cats"] });
-
-// const binaryTree = BST.getAllData().binaryTree;
-// console.log("--------binaryTree", binaryTree);
+module.exports = { BinarySearchTree, groupByPrimaryKey };
