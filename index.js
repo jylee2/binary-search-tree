@@ -1,8 +1,13 @@
-const { BinarySearchTreeBasic } = require("./BinarySearchTreeBasic");
+const { BinarySearchTree } = require("./BinarySearchTree");
 
-const BST = new BinarySearchTreeBasic();
-BST.insert("batman");
-BST.insert("aquaman");
-BST.insert("catwoman");
+const data = [
+  { name: "batman", powers: ["rich"] },
+  { name: "aquaman", powers: ["swimming"] },
+];
 
-console.log("--------BST.getRootNode()", BST.getRootNode());
+const BST = new BinarySearchTree(data, "name");
+
+BST.insert({ name: "catwoman", powers: ["cats"] });
+
+const binaryTree = BST.getAllData().binaryTree;
+console.log("--------binaryTree", binaryTree);
