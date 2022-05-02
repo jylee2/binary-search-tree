@@ -1,5 +1,4 @@
-const uniqBy = require("lodash/uniqBy");
-const isArray = require("lodash/isArray");
+const { groupByPrimaryKey } = require("./utils");
 
 class Node {
   constructor(data) {
@@ -8,29 +7,6 @@ class Node {
     this.right = null;
   }
 }
-
-const validateData = (dataArray, primaryKey) => {
-  if (!primaryKey) {
-    throw new Error("Please specify the primary key.");
-  }
-  if (!isArray(dataArray)) {
-    throw new Error("Data should be an array.");
-  }
-};
-
-const groupByPrimaryKey = (dataArray, primaryKey) => {
-  if (!dataArray?.length) return;
-  validateData(dataArray, primaryKey);
-
-  const uniqData = uniqBy(dataArray.filter(Boolean), primaryKey);
-
-  return uniqData.reduce((res, data) => {
-    if (!res[data[primaryKey]]) {
-      res[data[primaryKey]] = data;
-    }
-    return res;
-  }, {});
-};
 
 /*
 @params
@@ -82,12 +58,12 @@ class BinarySearchTree {
         const newNode = new Node(newData);
         this.root = newNode;
       } else {
-        this.recursiveInsertNode(this.root, newData);
+        this.recursivelyInsertNode(this.root, newData);
       }
     });
   }
 
-  recursiveInsertNode(node, data) {
+  recursivelyInsertNode(node, data) {
     const newNode = new Node(data);
 
     if (node.value[this.primaryKey] < newNode.value[this.primaryKey]) {
@@ -96,7 +72,7 @@ class BinarySearchTree {
         return;
       }
 
-      return this.recursiveInsertNode(node.left, newNode);
+      return this.recursivelyInsertNode(node.left, newNode);
     }
 
     if (!node.right) {
@@ -104,7 +80,7 @@ class BinarySearchTree {
       return;
     }
 
-    return this.recursiveInsertNode(node.right, newNode);
+    return this.recursivelyInsertNode(node.right, newNode);
   }
 
   getAllData() {
