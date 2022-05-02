@@ -41,6 +41,7 @@ class BinarySearchTree {
 
   nukeAndRecomputeBST() {
     const sortedKeys = getKeysForIndexing(this.indexedData);
+    if (!sortedKeys?.length) return;
 
     // nuke
     this.root = null;
