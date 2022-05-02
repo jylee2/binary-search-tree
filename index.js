@@ -1,4 +1,5 @@
 const {
+  sortArray,
   checkExisting,
   groupByPrimaryKey,
   getKeysForIndexing,
@@ -86,9 +87,30 @@ class BinarySearchTree {
   }
 
   traverse() {
-    return {
-      a: "a",
-    };
+    if (!this.root) return;
+    console.log("--------this.root", this.root);
+
+    const result = [this.root.value];
+
+    let currentNode = this.root;
+    while (currentNode) {
+      if (currentNode.left?.value) {
+        result.unshift(currentNode.left.value);
+      }
+      currentNode = currentNode.left;
+    }
+
+    currentNode = this.root;
+    while (currentNode) {
+      if (currentNode.right?.value) {
+        result.push(currentNode.right.value);
+      }
+      currentNode = currentNode.right;
+    }
+
+    console.log("--------result", result);
+
+    return result;
   }
 }
 

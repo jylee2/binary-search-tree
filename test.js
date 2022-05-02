@@ -26,9 +26,10 @@ test("binary-search-tree - insert", (t) => {
 test("binary-search-tree - traverse", (t) => {
   const BST = new BinarySearchTree(mockData, "name");
   BST.insert({ name: "brad traversy", powers: ["traverse"] });
+  BST.insert({ name: "ironman", powers: ["also rich"] });
 
   const res = BST.traverse();
-  t.truthy(res);
+  t.is(res.length, 5);
 });
 
 test("utils - groupByPrimaryKey", (t) => {
