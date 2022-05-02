@@ -2,6 +2,10 @@ const uniqBy = require("lodash/uniqBy");
 const isArray = require("lodash/isArray");
 
 const checkExisting = (data, indexedData, primaryKey) => {
+  if (!data) {
+    throw new Error("Inserted data is empty.");
+  }
+
   const foundExisting = indexedData[data[primaryKey]];
 
   if (foundExisting) {

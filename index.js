@@ -1,5 +1,4 @@
 const {
-  sortArray,
   checkExisting,
   groupByPrimaryKey,
   getKeysForIndexing,
@@ -23,21 +22,25 @@ class Node {
 */
 
 class BinarySearchTree {
-  constructor(dataArray, primaryKey) {
+  constructor(primaryKey) {
     this.root = null;
-    this.indexedData = groupByPrimaryKey(dataArray, primaryKey) || {};
+    this.indexedData = {};
     this.primaryKey = primaryKey;
   }
 
   insert(data) {
-    const newElement = { ...data };
+    checkExisting(data, this.indexedData, this.primaryKey);
 
-    checkExisting(newElement, this.indexedData, this.primaryKey);
-
-    // insert data
     this.indexedData[data[this.primaryKey]] = data;
 
-    this.nukeAndRecomputeBST();
+    const newNode = new Node(data);
+
+    if (!this.root) {
+      this.root = newNode;
+      return;
+    }
+
+    return this.recursivelyInsertNode(this.root, newNode);
   }
 
   nukeAndRecomputeBST() {
@@ -94,21 +97,20 @@ class BinarySearchTree {
 
     let currentNode = this.root;
     while (currentNode) {
-      if (currentNode.left?.value) {
-        result.unshift(currentNode.left.value);
+      if (currentNode.left) {
+        result.unshift(currentNode.left);
       }
       currentNode = currentNode.left;
     }
 
-    currentNode = this.root;
+    currentNode = result[0];
     while (currentNode) {
-      if (currentNode.right?.value) {
-        result.push(currentNode.right.value);
+      if (currentNode.right) {
+        console.log("--------currentNode.right", currentNode.right);
+        // result.push(currentNode.right.value);
       }
       currentNode = currentNode.right;
     }
-
-    console.log("--------result", result);
 
     return result;
   }
