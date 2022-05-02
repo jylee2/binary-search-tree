@@ -34,11 +34,10 @@ const groupByPrimaryKey = (dataArray, primaryKey) => {
   }, {});
 };
 
-const getKeysForIndexing = (indexedData) => {
-  const primaryKeys = Object.keys(indexedData);
-  if (!primaryKeys?.length) return;
+const sortArray = (keys) => {
+  if (!keys?.length) return [];
 
-  const sortedKeys = primaryKeys.sort((a, b) => {
+  return keys.sort((a, b) => {
     if (typeof a === "number" && typeof b === "number") {
       return a - b;
     }
@@ -47,6 +46,13 @@ const getKeysForIndexing = (indexedData) => {
       return a.localeCompare(b);
     }
   });
+};
+
+const getKeysForIndexing = (indexedData) => {
+  const primaryKeys = Object.keys(indexedData);
+  if (!primaryKeys?.length) return;
+
+  const sortedKeys = sortArray(primaryKeys);
 
   const sliced = sortedKeys
     .slice(sortedKeys.length / 2, sortedKeys.length)
@@ -56,6 +62,7 @@ const getKeysForIndexing = (indexedData) => {
 };
 
 module.exports = {
+  sortArray,
   checkExisting,
   groupByPrimaryKey,
   getKeysForIndexing,

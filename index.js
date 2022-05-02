@@ -84,6 +84,12 @@ class BinarySearchTree {
       primaryKey: this.primaryKey,
     };
   }
+
+  traverse() {
+    return {
+      a: "a",
+    };
+  }
 }
 
 module.exports = { BinarySearchTree, groupByPrimaryKey };

@@ -1,7 +1,7 @@
 const test = require("ava");
 
 const { BinarySearchTree } = require("./index");
-const { groupByPrimaryKey, getKeysForIndexing } = require("./utils");
+const { sortArray, groupByPrimaryKey, getKeysForIndexing } = require("./utils");
 
 const mockData = [
   { name: "batman", powers: ["rich"] },
@@ -23,6 +23,14 @@ test("binary-search-tree - insert", (t) => {
   t.is(binaryTree.right.value.name, "superman");
 });
 
+test("binary-search-tree - traverse", (t) => {
+  const BST = new BinarySearchTree(mockData, "name");
+  BST.insert({ name: "brad traversy", powers: ["traverse"] });
+
+  const res = BST.traverse();
+  t.truthy(res);
+});
+
 test("utils - groupByPrimaryKey", (t) => {
   const groupedData = groupByPrimaryKey(mockData, "name");
   t.truthy(groupedData);
@@ -31,6 +39,14 @@ test("utils - groupByPrimaryKey", (t) => {
   t.is(keys.length, 3);
   t.is(keys[0], "batman");
   t.is(groupedData["batman"].name, "batman");
+});
+
+test("utils - sortArray", (t) => {
+  const testArray = ["b", "a", "c"];
+
+  const sortedKeys = sortArray(testArray);
+  t.is(sortedKeys.length, 3);
+  t.is(sortedKeys[0], "a");
 });
 
 test("utils - getKeysForIndexing", (t) => {
