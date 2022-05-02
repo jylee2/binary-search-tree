@@ -1,4 +1,8 @@
-const { checkExisting, groupByPrimaryKey } = require("./utils");
+const {
+  checkExisting,
+  groupByPrimaryKey,
+  getKeysForIndexing,
+} = require("./utils");
 
 class Node {
   constructor(data) {
@@ -36,18 +40,7 @@ class BinarySearchTree {
   }
 
   nukeAndRecomputeBST() {
-    const primaryKeys = Object.keys(this.indexedData);
-    if (!primaryKeys?.length) return;
-
-    const sortedKeys = primaryKeys.sort((a, b) => {
-      if (typeof a === "number" && typeof b === "number") {
-        return a - b;
-      }
-
-      if (typeof a === "string" && typeof b === "string") {
-        return a.localeCompare(b);
-      }
-    });
+    const sortedKeys = getKeysForIndexing(this.indexedData);
 
     // nuke
     this.root = null;
@@ -65,9 +58,7 @@ class BinarySearchTree {
     });
   }
 
-  recursivelyInsertNode(node, data) {
-    const newNode = data;
-
+  recursivelyInsertNode(node, newNode) {
     if (newNode.value[this.primaryKey] < node.value[this.primaryKey]) {
       if (!node.left) {
         node.left = newNode;
