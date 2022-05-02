@@ -1,4 +1,4 @@
-const { groupByPrimaryKey } = require("./utils");
+const { checkExisting, groupByPrimaryKey } = require("./utils");
 
 class Node {
   constructor(data) {
@@ -24,18 +24,10 @@ class BinarySearchTree {
     this.primaryKey = primaryKey;
   }
 
-  checkExisting(data) {
-    const foundExisting = this.indexedData[data[this.primaryKey]];
-
-    if (foundExisting) {
-      throw new Error(`${data[this.primaryKey]} already exists.`);
-    }
-  }
-
   insert(data) {
     const newElement = { ...data };
 
-    this.checkExisting(newElement);
+    checkExisting(newElement, this.indexedData, this.primaryKey);
 
     // insert data
     this.indexedData[data[this.primaryKey]] = data;

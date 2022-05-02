@@ -1,10 +1,19 @@
 const uniqBy = require("lodash/uniqBy");
 const isArray = require("lodash/isArray");
 
+const checkExisting = (data, indexedData, primaryKey) => {
+  const foundExisting = indexedData[data[primaryKey]];
+
+  if (foundExisting) {
+    throw new Error(`${data[primaryKey]} already exists.`);
+  }
+};
+
 const validateData = (dataArray, primaryKey) => {
   if (!primaryKey) {
     throw new Error("Please specify the primary key.");
   }
+
   if (!isArray(dataArray)) {
     throw new Error("Data should be an array.");
   }
@@ -20,8 +29,9 @@ const groupByPrimaryKey = (dataArray, primaryKey) => {
     if (!res[data[primaryKey]]) {
       res[data[primaryKey]] = data;
     }
+
     return res;
   }, {});
 };
 
-module.exports = { groupByPrimaryKey };
+module.exports = { checkExisting, groupByPrimaryKey };
