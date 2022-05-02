@@ -1,6 +1,7 @@
 const test = require("ava");
 
-const { BinarySearchTree, groupByPrimaryKey } = require("./index");
+const { BinarySearchTree } = require("./index");
+const { groupByPrimaryKey } = require("./utils");
 
 const mockData = [
   { name: "batman", powers: ["rich"] },
