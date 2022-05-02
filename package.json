@@ -1,5 +1,13 @@
 {
+  "name": "binary-search-tree",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "ava"
+  },
   "dependencies": {
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "ava": "^4.2.0"
   }
 }
