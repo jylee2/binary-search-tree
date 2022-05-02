@@ -39,26 +39,36 @@ class BinarySearchTree {
     const primaryKeys = Object.keys(this.indexedData);
     if (!primaryKeys?.length) return;
 
+    const sortedKeys = primaryKeys.sort((a, b) => {
+      if (typeof a === "number" && typeof b === "number") {
+        return a - b;
+      }
+
+      if (typeof a === "string" && typeof b === "string") {
+        return a.localeCompare(b);
+      }
+    });
+
     // nuke
     this.root = null;
 
     // recompute
-    primaryKeys.forEach((key) => {
+    sortedKeys.forEach((key) => {
       const newData = this.indexedData[key];
+      const newNode = new Node(newData);
 
       if (!this.root) {
-        const newNode = new Node(newData);
         this.root = newNode;
       } else {
-        this.recursivelyInsertNode(this.root, newData);
+        this.recursivelyInsertNode(this.root, newNode);
       }
     });
   }
 
   recursivelyInsertNode(node, data) {
-    const newNode = new Node(data);
+    const newNode = data;
 
-    if (node.value[this.primaryKey] < newNode.value[this.primaryKey]) {
+    if (newNode.value[this.primaryKey] < node.value[this.primaryKey]) {
       if (!node.left) {
         node.left = newNode;
         return;

@@ -9,7 +9,7 @@ const checkExisting = (data, indexedData, primaryKey) => {
   }
 };
 
-const validateData = (dataArray, primaryKey) => {
+const validateInput = (dataArray, primaryKey) => {
   if (!primaryKey) {
     throw new Error("Please specify the primary key.");
   }
@@ -21,7 +21,7 @@ const validateData = (dataArray, primaryKey) => {
 
 const groupByPrimaryKey = (dataArray, primaryKey) => {
   if (!dataArray?.length) return;
-  validateData(dataArray, primaryKey);
+  validateInput(dataArray, primaryKey);
 
   const uniqData = uniqBy(dataArray.filter(Boolean), primaryKey);
 

@@ -19,11 +19,14 @@ test("group-by-primary-key", (t) => {
   t.is(groupedData["batman"].name, "batman");
 });
 
-test("binary-search-tree", (t) => {
+test("binary-search-tree - insert", (t) => {
   const BST = new BinarySearchTree(mockData, "name");
   BST.insert({ name: "catwoman", powers: ["meow"] });
 
   const res = BST.getAllData();
+  const indexedData = res.indexedData;
+  t.truthy(indexedData["catwoman"]);
+
   const binaryTree = res.binaryTree;
   t.truthy(binaryTree);
 });

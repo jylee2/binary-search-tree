@@ -17,6 +17,7 @@ npm install git://github.com/jylee2/binary-search-tree.git
 
 # Run
 
+`npm i`
 `node index.js`
 
 # Test
