@@ -2,6 +2,10 @@ const uniqBy = require("lodash/uniqBy");
 const isArray = require("lodash/isArray");
 
 const checkExisting = (data, indexedData, primaryKey) => {
+  if (!data) {
+    throw new Error("Inserted data is empty.");
+  }
+
   const foundExisting = indexedData[data[primaryKey]];
 
   if (foundExisting) {
@@ -9,7 +13,7 @@ const checkExisting = (data, indexedData, primaryKey) => {
   }
 };
 
-const validateData = (dataArray, primaryKey) => {
+const validateInput = (dataArray, primaryKey) => {
   if (!primaryKey) {
     throw new Error("Please specify the primary key.");
   }
@@ -21,7 +25,7 @@ const validateData = (dataArray, primaryKey) => {
 
 const groupByPrimaryKey = (dataArray, primaryKey) => {
   if (!dataArray?.length) return;
-  validateData(dataArray, primaryKey);
+  validateInput(dataArray, primaryKey);
 
   const uniqData = uniqBy(dataArray.filter(Boolean), primaryKey);
 
@@ -34,4 +38,36 @@ const groupByPrimaryKey = (dataArray, primaryKey) => {
   }, {});
 };
 
-module.exports = { checkExisting, groupByPrimaryKey };
+const sortArray = (keys) => {
+  if (!keys?.length) return [];
+
+  return keys.sort((a, b) => {
+    if (typeof a === "number" && typeof b === "number") {
+      return a - b;
+    }
+
+    if (typeof a === "string" && typeof b === "string") {
+      return a.localeCompare(b);
+    }
+  });
+};
+
+const getKeysForIndexing = (indexedData) => {
+  const primaryKeys = Object.keys(indexedData);
+  if (!primaryKeys?.length) return;
+
+  const sortedKeys = sortArray(primaryKeys);
+
+  const sliced = sortedKeys
+    .slice(sortedKeys.length / 2, sortedKeys.length)
+    .concat(sortedKeys.slice(0, sortedKeys.length / 2));
+
+  return sliced;
+};
+
+module.exports = {
+  sortArray,
+  checkExisting,
+  groupByPrimaryKey,
+  getKeysForIndexing,
+};

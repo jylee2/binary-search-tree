@@ -1,4 +1,8 @@
-const { checkExisting, groupByPrimaryKey } = require("./utils");
+const {
+  checkExisting,
+  groupByPrimaryKey,
+  getKeysForIndexing,
+} = require("./utils");
 
 class Node {
   constructor(data) {
@@ -18,47 +22,49 @@ class Node {
 */
 
 class BinarySearchTree {
-  constructor(dataArray, primaryKey) {
+  constructor(primaryKey) {
     this.root = null;
-    this.indexedData = groupByPrimaryKey(dataArray, primaryKey) || {};
+    this.indexedData = {};
     this.primaryKey = primaryKey;
   }
 
   insert(data) {
-    const newElement = { ...data };
+    checkExisting(data, this.indexedData, this.primaryKey);
 
-    checkExisting(newElement, this.indexedData, this.primaryKey);
-
-    // insert data
     this.indexedData[data[this.primaryKey]] = data;
 
-    this.nukeAndRecomputeBST();
+    const newNode = new Node(data);
+
+    if (!this.root) {
+      this.root = newNode;
+      return;
+    }
+
+    return this.recursivelyInsertNode(this.root, newNode);
   }
 
   nukeAndRecomputeBST() {
-    const primaryKeys = Object.keys(this.indexedData);
-    if (!primaryKeys?.length) return;
+    const sortedKeys = getKeysForIndexing(this.indexedData);
+    if (!sortedKeys?.length) return;
 
     // nuke
     this.root = null;
 
     // recompute
-    primaryKeys.forEach((key) => {
+    sortedKeys.forEach((key) => {
       const newData = this.indexedData[key];
+      const newNode = new Node(newData);
 
       if (!this.root) {
-        const newNode = new Node(newData);
         this.root = newNode;
       } else {
-        this.recursivelyInsertNode(this.root, newData);
+        this.recursivelyInsertNode(this.root, newNode);
       }
     });
   }
 
-  recursivelyInsertNode(node, data) {
-    const newNode = new Node(data);
-
-    if (node.value[this.primaryKey] < newNode.value[this.primaryKey]) {
+  recursivelyInsertNode(node, newNode) {
+    if (newNode.value[this.primaryKey] < node.value[this.primaryKey]) {
       if (!node.left) {
         node.left = newNode;
         return;
@@ -81,6 +87,32 @@ class BinarySearchTree {
       indexedData: this.indexedData,
       primaryKey: this.primaryKey,
     };
+  }
+
+  traverse() {
+    if (!this.root) return;
+    console.log("--------this.root", this.root);
+
+    const result = [this.root.value];
+
+    let currentNode = this.root;
+    while (currentNode) {
+      if (currentNode.left) {
+        result.unshift(currentNode.left);
+      }
+      currentNode = currentNode.left;
+    }
+
+    currentNode = result[0];
+    while (currentNode) {
+      if (currentNode.right) {
+        console.log("--------currentNode.right", currentNode.right);
+        // result.push(currentNode.right.value);
+      }
+      currentNode = currentNode.right;
+    }
+
+    return result;
   }
 }
 
