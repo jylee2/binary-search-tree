@@ -91,24 +91,25 @@ class BinarySearchTree {
 
   traverse() {
     if (!this.root) return;
-    console.log("--------this.root", this.root);
 
-    const result = [this.root.value];
-
+    const leftNodes = [];
     let currentNode = this.root;
-    while (currentNode) {
-      if (currentNode.left) {
-        result.unshift(currentNode.left);
-      }
-      currentNode = currentNode.left;
-    }
+    const result = [];
 
-    currentNode = result[0];
-    while (currentNode) {
-      if (currentNode.right) {
-        console.log("--------currentNode.right", currentNode.right);
-        // result.push(currentNode.right.value);
+    while (currentNode || leftNodes.length) {
+      // Reach the left most Node of the currentNode Node
+      while (currentNode) {
+        // place pointer to a tree node on the stack before traversing the node's left subtree
+        leftNodes.push(currentNode);
+        currentNode = currentNode.left;
       }
+
+      // currentNode is null, assign as last leftNode
+      currentNode = leftNodes.pop();
+
+      result.push(currentNode.value);
+
+      // visited the node and its left subtree. Now, it's right subtree's turn
       currentNode = currentNode.right;
     }
 
