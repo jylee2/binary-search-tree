@@ -32,8 +32,18 @@ test("binary-search-tree - traverse", (t) => {
 
   mockData.forEach((d) => BST.insert(d));
 
-  const res = BST.traverse();
-  t.is(res.length, 5);
+  const res = BST.traverse().map((r) => r.name);
+  const keys = sortArray(Object.keys(BST.getAllData().indexedData));
+
+  const difference = [];
+  for (let i = 0; i < keys.length; i++) {
+    if (res[i] !== keys[i]) {
+      difference.push(res[i]);
+    }
+  }
+
+  t.is(res.length, 6);
+  t.is(difference.length, 0);
 });
 
 test("utils - groupByPrimaryKey", (t) => {
