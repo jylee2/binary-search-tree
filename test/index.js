@@ -1,7 +1,7 @@
 const test = require("ava");
 
-const { BinarySearchTree } = require("./index");
-const { sortArray, groupByPrimaryKey, getKeysForIndexing } = require("./utils");
+const { BinarySearchTree } = require("../index");
+const { sortArray, groupByPrimaryKey, getKeysForIndexing } = require("../utils");
 
 const mockData = [
   { name: "batman", powers: ["rich"] },
