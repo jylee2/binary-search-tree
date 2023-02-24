@@ -90,11 +90,12 @@ class BinarySearchTree {
   }
 
   traverse() {
-    if (!this.root) return;
+    const result = [];
+
+    if (!this.root) return result;
 
     const leftNodes = [];
     let currentNode = this.root;
-    const result = [];
 
     while (currentNode || leftNodes.length) {
       // Reach the left most Node of the currentNode Node
