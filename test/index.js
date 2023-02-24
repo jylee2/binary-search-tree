@@ -29,21 +29,17 @@ test("binary-search-tree - insert", (t) => {
 
 test("binary-search-tree - traverse", (t) => {
   const BST = new BinarySearchTree("name");
-
   mockData.forEach((d) => BST.insert(d));
-
   const res = BST.traverse().map((r) => r.name);
-  const keys = sortArray(Object.keys(BST.getAllData().indexedData));
 
-  const difference = [];
-  for (let i = 0; i < keys.length; i++) {
-    if (res[i] !== keys[i]) {
-      difference.push(res[i]);
-    }
-  }
-
-  t.is(res.length, 6);
-  t.is(difference.length, 0);
+  t.deepEqual(res, [
+    'aquaman',
+    'batman',
+    'brad traversy',
+    'catwoman',
+    'ironman',
+    'superman'
+  ])
 });
 
 test("utils - groupByPrimaryKey", (t) => {
